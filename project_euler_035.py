@@ -8,22 +8,25 @@
 
 import math
 
-circ_primes = set()
+circ_primes = {2,3,5,7}
+
 
 def isPrime(n):
-  if n == 2:
-    return True
-
-  for i in range(2, math.ceil(math.sqrt(n))):
+  for i in range(2, math.ceil(math.sqrt(n))+1):
     if n % i == 0:
       return False
-    else:
-      return True
+  return True
 
 def performShifts(n):
   if n in circ_primes:
     return
   num_shifts = math.floor(math.log10(n))
+  num_digits = num_shifts + 1
+  for i in range(0, num_digits):
+    dig = n % 10**(i+1) // 10**i
+    if dig == 0 or dig == 2 or dig == 4 or dig == 5 or dig == 6 or dig == 8:
+      return
+
   shift_pos = 10**num_shifts
   temp_circ_primes = []
   while (num_shifts > -1):
@@ -36,16 +39,11 @@ def performShifts(n):
   circ_primes.update(temp_circ_primes)
     
 def circularPrime():
-  n = 2
-  while n < 100:
-    if n < 10 and isPrime(n):
-      circ_primes.add(n)
-      n -= 1
-    else:
+  n = 11
+  while n < 1000000:
       performShifts(n)
-      n -= 1
+      n += 2
   
   return len(circ_primes)
-
 
 print(circularPrime())
