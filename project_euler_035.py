@@ -7,9 +7,11 @@
 # How many circular primes are there below one million?
 
 import math
+import time
+
+start_time = time.time()
 
 circ_primes = {2,3,5,7}
-
 
 def isPrime(n):
   for i in range(2, math.ceil(math.sqrt(n))+1):
@@ -22,9 +24,9 @@ def performShifts(n):
     return
   num_shifts = math.floor(math.log10(n))
   num_digits = num_shifts + 1
-  for i in range(0, num_digits):
+  for i in range(num_digits):
     dig = n % 10**(i+1) // 10**i
-    if dig == 0 or dig == 2 or dig == 4 or dig == 5 or dig == 6 or dig == 8:
+    if dig % 2 == 0 or dig == 5:
       return
 
   shift_pos = 10**num_shifts
@@ -47,3 +49,4 @@ def circularPrime():
   return len(circ_primes)
 
 print(circularPrime())
+print("--- %s seconds ---" % (time.time() - start_time))
